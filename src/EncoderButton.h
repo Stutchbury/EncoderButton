@@ -30,7 +30,6 @@
 #define EncoderButton_h
 
 #include "Arduino.h"
-#include <memory> //for std::unique_ptr
 
 //Standing on the shoulders of giants
 // http://www.pjrc.com/teensy/td_libs_Encoder.html
@@ -307,8 +306,8 @@ class EncoderButton {
 
 
   private:
-    std::unique_ptr<Encoder> encoder;   
-    std::unique_ptr<Bounce> bounce;
+    Encoder* encoder;
+    Bounce* bounce;
     boolean haveButton = false;
     boolean haveEncoder = false;
     uint8_t positionDivider = 4;
@@ -330,8 +329,8 @@ class EncoderButton {
     unsigned char prevClickCount = 0;
     bool repeatLongPress = false;
 
-    ulong rateLimit = 0;
-    ulong rateLimitCounter = 0;    
+    long rateLimit = 0;
+    long rateLimitCounter = 0;    
 
 
 

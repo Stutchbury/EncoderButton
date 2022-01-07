@@ -2,7 +2,7 @@
 
 
 EncoderButton::EncoderButton(byte encoderPin1, byte encoderPin2, byte switchPin )
-    : encoder(std::make_unique<Encoder>(encoderPin1, encoderPin2)), bounce(std::make_unique<Bounce>()) {
+  : encoder(new Encoder(encoderPin1, encoderPin2)), bounce(new Bounce()) {
   haveEncoder = true;
   haveButton = true;    
   // Top tip From PJRC's Encoder - without this delay the
@@ -16,12 +16,12 @@ EncoderButton::EncoderButton(byte encoderPin1, byte encoderPin2, byte switchPin 
 }
 
 EncoderButton::EncoderButton(byte encoderPin1, byte encoderPin2 )
-    : encoder(std::make_unique<Encoder>(encoderPin1, encoderPin2)) {
+  : encoder(new Encoder(encoderPin1, encoderPin2)) {
   haveEncoder = true;
 }
 
 EncoderButton::EncoderButton(byte switchPin )
-    : bounce(std::make_unique<Bounce>()) {
+  : bounce(new Bounce()) {
   haveButton = true;    
   pinMode(switchPin, INPUT_PULLUP); //Set pullup first
   delayMicroseconds(2000); //Delay
