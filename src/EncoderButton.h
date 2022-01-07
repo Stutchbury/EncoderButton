@@ -329,8 +329,8 @@ class EncoderButton {
     unsigned char prevClickCount = 0;
     bool repeatLongPress = false;
 
-    long rateLimit = 0;
-    long rateLimitCounter = 0;    
+    unsigned int rateLimit = 0;
+    unsigned long rateLimitCounter = 0;    
 
 
 
