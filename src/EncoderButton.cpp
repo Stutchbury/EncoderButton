@@ -163,6 +163,10 @@ void EncoderButton::resetPressedPosition(long pos) {
 
 void EncoderButton::setIdleTimeout(unsigned int timeoutMs) { idleTimeout = timeoutMs; }
 
+void EncoderButton::setUserId(unsigned int identifier) { _userId = identifier; }
+
+void EncoderButton::setUserState(unsigned int s) { _userState = s; }
+
 bool EncoderButton::buttonState() { return bounce->read(); }
 
 unsigned char EncoderButton::clickCount() { return prevClickCount; }
@@ -181,3 +185,6 @@ long EncoderButton::pressedPosition() { return currentPressedPosition; }
 
 unsigned long EncoderButton::msSinceLastEvent() { return millis() - lastEventMs; }
 
+unsigned int EncoderButton::userId() { return _userId; }
+
+unsigned int EncoderButton::userState() { return _userState; }

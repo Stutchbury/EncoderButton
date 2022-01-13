@@ -147,7 +147,13 @@ Affects both pressed+turning and no-pressed-turning.
 
 ### Setting idle timeout 
 
-**```setIdleTimeout(unsigned int timeoutMs)```** Set the idle timeout in ms (default 10000);
+**```setIdleTimeout(unsigned int timeoutMs)```** Set the idle timeout in ms (default 10000)
+
+### Setting id or user state 
+
+**```setUserId(unsigned int identifier)```** Set a user defined value to identify this button. Does not have to be unique (defaults to 0). Useful when multiple buttons call the same handler.
+
+**```setUserState(unsigned int state)```** Set a user defined state for this button. Eg enum for ON, OFF, INACTIVE etc. Not used by the library.
 
 ### Read button state
 
@@ -175,3 +181,9 @@ From within your callback function
 
 ### Timeout
 **```unsigned long msSinceLastEvent()```** Returns the number of ms since any event was fired for this encoder/button.
+
+### Getting user id or user state 
+
+**```unsigned int userId()```** Return the user defined value that identifies this button. May not be unique.
+
+**```unsigned int userState()```** Returns the user defined state for this button.

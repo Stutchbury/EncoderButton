@@ -225,6 +225,20 @@ class EncoderButton {
      * Set the idle timeout in ms (default 10000) 
      */
     void setIdleTimeout(unsigned int timeoutMs);
+
+    /**
+     * Set the button identifier (not unique, defaults to 0)
+     * Useful when multiple buttons call the same handler.
+     */
+    void setUserId(unsigned int id);
+
+    /**
+     * Set the user state. Slight function creep but useful.
+     * For use by implementor, ignored by library
+     * eg ON, OFF, INACTIVE etc
+     */
+    void setUserState(unsigned int s);
+
     
     /** ***************************************
      *  button state
@@ -285,6 +299,15 @@ class EncoderButton {
      */
     unsigned long msSinceLastEvent();
 
+    /**
+     * Get the button identifier (not unique, defaults to 0)
+     */
+    unsigned int userId();
+
+    /**
+     * Get the user state.
+     */
+    unsigned int userState();
 
 
   protected:
@@ -330,7 +353,10 @@ class EncoderButton {
     bool repeatLongPress = false;
 
     unsigned int rateLimit = 0;
-    unsigned long rateLimitCounter = 0;    
+    unsigned long rateLimitCounter = 0;   
+
+    unsigned int _userId = 0;
+    unsigned int _userState = 0;
 
 
 
