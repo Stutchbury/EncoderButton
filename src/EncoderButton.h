@@ -31,6 +31,8 @@
 
 #include "Arduino.h"
 
+//#define ARDUINO_ARCH_ESP32 1
+
 //Standing on the shoulders of giants
 // http://www.pjrc.com/teensy/td_libs_Encoder.html
 #ifndef Encoder_h
@@ -41,13 +43,19 @@
   #include <Bounce2.h>
 #endif
 
+#if defined(ARDUINO_ARCH_ESP32) || defined(ESP8266) || defined(CORE_TEENSY)
+  #include <functional>
+#endif
+
 class EncoderButton {
 
   protected:
-    /**
-     * Callback functions receive an EncoderButton as their single argument
-     */
-    using CallbackFunction = void (*) (EncoderButton&);
+
+  #if defined(ARDUINO_ARCH_ESP32) || defined(ESP8266) || defined(CORE_TEENSY)
+  typedef std::function<void(EncoderButton &btn)> CallbackFunction;
+#else
+  typedef void (*CallbackFunction)(EncoderButton &);
+#endif
 
   public:
     /**
