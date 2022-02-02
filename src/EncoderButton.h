@@ -31,8 +31,6 @@
 
 #include "Arduino.h"
 
-//#define ARDUINO_ARCH_ESP32 1
-
 //Standing on the shoulders of giants
 // http://www.pjrc.com/teensy/td_libs_Encoder.html
 #ifndef Encoder_h
