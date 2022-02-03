@@ -49,11 +49,11 @@ class EncoderButton {
 
   protected:
 
-  #if defined(ARDUINO_ARCH_ESP32) || defined(ESP8266) || defined(CORE_TEENSY)
-  typedef std::function<void(EncoderButton &btn)> CallbackFunction;
-#else
-  typedef void (*CallbackFunction)(EncoderButton &);
-#endif
+    #if defined(ARDUINO_ARCH_ESP32) || defined(ESP8266) || defined(CORE_TEENSY)
+      typedef std::function<void(EncoderButton &btn)> CallbackFunction;
+    #else
+      typedef void (*CallbackFunction)(EncoderButton &);
+    #endif
 
   public:
     /**

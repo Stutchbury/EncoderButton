@@ -76,7 +76,11 @@ Normally called from within ```setup()``` but can be updated at runtime.
 
 ### Setting button callback handlers
 
-Each of these methods (optionally) sets the function to be called on the event being fired. They all take a single argument of your function name.
+Each of these methods (optionally) sets the function to be called on the event being fired. 
+
+They all take a single argument of your function name (except ```setLongPressHandler``` which takes and optional ```bool``` to repeatedly fire or not).
+
+For an ESP8288/32 or Teensy you can also pass a class method - see ```ClassMethodLambdaCallback.ino``` in the examples.
 
 **```setChangedHandler```** fires when button state changes:  
 Rarely used - try 'pressed', 'released' or 'clicked' first.
