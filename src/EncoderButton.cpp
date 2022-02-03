@@ -29,84 +29,86 @@ EncoderButton::EncoderButton(byte switchPin )
 }
 
 void EncoderButton::update() {
-  //button update (fires pressed/released callbacks)
-  if ( haveButton && bounce->update() ) {
-    lastEventMs = millis();
-    idleFlagged = false;    
-    if (changed_cb != NULL) changed_cb (*this);
-    _buttonState = bounce->read();
-    if ( bounce->fell() ) {
-      previousState = HIGH;
-      if (pressed_cb != NULL) pressed_cb (*this);
-    } else if (bounce->rose() ) {
-      if ( encodingPressed ) {
-        encodingPressed = false;
-        prevClickCount = 0;
-        clickCounter = 0;
-        if (encoder_released_cb != NULL) encoder_released_cb (*this);
-      } else {
-        if ( previousState == HIGH ) {
-          clickFired = false;
-          clickCounter++;
-        }
-        if (released_cb != NULL) released_cb (*this);
-      }
-      previousState = LOW;
-    }
-  }
-  //encoder udate (fires encoder rotation callbacks)
-  if ( haveEncoder && millis() > (rateLimitCounter + rateLimit) ) { 
-    long newPosition = floor(encoder->read()/positionDivider);
-    if (newPosition != encoderPosition) {
-      encoderIncrement = (newPosition - encoderPosition); 
-      encoderPosition = newPosition;
+  if ( _enabled ) {
+    //button update (fires pressed/released callbacks)
+    if ( haveButton && bounce->update() ) {
+      lastEventMs = millis();
       idleFlagged = false;    
-      lastEventMs = millis();
-      if ( _buttonState == HIGH ) {
-        currentPosition += encoderIncrement;
-        if (encoder_cb != NULL) encoder_cb (*this);
+      if (changed_cb != NULL) changed_cb (*this);
+      _buttonState = bounce->read();
+      if ( bounce->fell() ) {
+        previousState = HIGH;
+        if (pressed_cb != NULL) pressed_cb (*this);
+      } else if (bounce->rose() ) {
+        if ( encodingPressed ) {
+          encodingPressed = false;
+          prevClickCount = 0;
+          clickCounter = 0;
+          if (encoder_released_cb != NULL) encoder_released_cb (*this);
+        } else {
+          if ( previousState == HIGH ) {
+            clickFired = false;
+            clickCounter++;
+          }
+          if (released_cb != NULL) released_cb (*this);
+        }
+        previousState = LOW;
+      }
+    }
+    //encoder udate (fires encoder rotation callbacks)
+    if ( haveEncoder && millis() > (rateLimitCounter + rateLimit) ) { 
+      long newPosition = floor(encoder->read()/positionDivider);
+      if (newPosition != encoderPosition) {
+        encoderIncrement = (newPosition - encoderPosition); 
+        encoderPosition = newPosition;
+        idleFlagged = false;    
+        lastEventMs = millis();
+        if ( _buttonState == HIGH ) {
+          currentPosition += encoderIncrement;
+          if (encoder_cb != NULL) encoder_cb (*this);
+        } else {
+          encodingPressed = true;
+          currentPressedPosition += encoderIncrement;
+          if (encoder_pressed_cb != NULL) encoder_pressed_cb (*this);
+        }
+      }
+      rateLimitCounter = millis();
+    }
+    //fire long press callbacks
+    if (haveButton && !encodingPressed && LOW == bounce->read() ) {
+      if ( bounce->duration() > (longClickDuration * (longPressCounter+1)) ) {
+        lastEventMs = millis();
+        if ( (repeatLongPress || longPressCounter == 0 ) && long_press_cb != NULL) {
+          long_press_cb (*this);
+        }
+        longPressCounter++;
+      }
+    }
+    //fire button click callbacks
+    if ( haveButton && !clickFired && _buttonState == HIGH && bounce->duration() > multiClickInterval ) {
+      clickFired = true;
+      if ( bounce->previousDuration() > longClickDuration ) {
+        clickCounter = 0;
+        prevClickCount = 1;
+        longPressCounter = 0;
+        if (long_click_cb != NULL) long_click_cb (*this);
       } else {
-        encodingPressed = true;
-        currentPressedPosition += encoderIncrement;
-        if (encoder_pressed_cb != NULL) encoder_pressed_cb (*this);
+        prevClickCount = clickCounter;
+        if (clickCounter == 3 && triple_click_cb != NULL) {
+          triple_click_cb (*this);
+        } else if ( clickCounter == 2 && double_click_cb != NULL) {
+          double_click_cb (*this);
+        } else {
+          if (click_cb != NULL) click_cb (*this);
+        }
+        clickCounter = 0;
       }
     }
-    rateLimitCounter = millis();
-  }
-  //fire long press callbacks
-  if (haveButton && !encodingPressed && LOW == bounce->read() ) {
-    if ( bounce->duration() > (longClickDuration * (longPressCounter+1)) ) {
-      lastEventMs = millis();
-      if ( (repeatLongPress || longPressCounter == 0 ) && long_press_cb != NULL) {
-        long_press_cb (*this);
-      }
-      longPressCounter++;
+    //fire idle timeout callback
+    if ( !idleFlagged && idle_cb != NULL && msSinceLastEvent() > idleTimeout ) {
+      idleFlagged = true;
+      idle_cb (*this);
     }
-  }
-  //fire button click callbacks
-  if ( haveButton && !clickFired && _buttonState == HIGH && bounce->duration() > multiClickInterval ) {
-    clickFired = true;
-    if ( bounce->previousDuration() > longClickDuration ) {
-      clickCounter = 0;
-      prevClickCount = 1;
-      longPressCounter = 0;
-      if (long_click_cb != NULL) long_click_cb (*this);
-    } else {
-      prevClickCount = clickCounter;
-      if (clickCounter == 3 && triple_click_cb != NULL) {
-        triple_click_cb (*this);
-      } else if ( clickCounter == 2 && double_click_cb != NULL) {
-        double_click_cb (*this);
-      } else {
-        if (click_cb != NULL) click_cb (*this);
-      }
-      clickCounter = 0;
-    }
-  }
-  //fire idle timeout callback
-  if ( !idleFlagged && idle_cb != NULL && msSinceLastEvent() > idleTimeout ) {
-    idleFlagged = true;
-    idle_cb (*this);
   }
 }
 
@@ -188,3 +190,15 @@ unsigned long EncoderButton::msSinceLastEvent() { return millis() - lastEventMs;
 unsigned int EncoderButton::userId() { return _userId; }
 
 unsigned int EncoderButton::userState() { return _userState; }
+
+bool EncoderButton::enabled() { return _enabled; }
+
+void EncoderButton::enable(bool e) { 
+  _enabled = e;
+  if ( e == true ) {
+    //Reset the encoder so we don't trigger an event
+    encoder->write(encoderPosition*positionDivider);
+  }
+}
+
+

@@ -10,7 +10,7 @@
  * Written for Teensy but tested on Arduino Uno and others.
  * 
  * It is important, but not essential, to use hardware interrupt pins (any 
- * pin on a Teensy, pins 2 & 3 on an UNO). The library will work on software 
+ * pin on a Teensy, but only pins 2 & 3 on an UNO). The library will work on software 
  * interrupts but may not avoid loss of steps.
  * Do not use setRateLimit() with software interrupts.
  * See https://www.pjrc.com/teensy/td_libs_Encoder.html
@@ -19,7 +19,7 @@
  * Works with Encoder+button, Encoder alone or just a Button.
  * 
  * Encoder can fire rotation callbacks when pressed or not and optionally 
- * in quadrature mode (default is once per click).
+ * in quadrature mode. Default is once per click (ie once per four encoder positions).
  * 
  * Button events are fired for both the encoder button and/or a standalone
  * momentary switch.
@@ -309,6 +309,17 @@ class EncoderButton {
      */
     unsigned int userState();
 
+    /**
+     * Returns true if enabled
+     */
+    bool enabled();
+
+    /**
+     * Set enabled to true of false
+     * This will enable/disable all event callbacks.
+     * When disabled the encoder positions will not be updated.
+     */
+    void enable(bool e=true);
 
   protected:
     
@@ -357,6 +368,7 @@ class EncoderButton {
 
     unsigned int _userId = 0;
     unsigned int _userState = 0;
+    bool _enabled = true;
 
 
 

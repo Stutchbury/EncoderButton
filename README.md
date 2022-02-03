@@ -29,7 +29,7 @@ Install via the Arduino Library Manager or download from [github](https://github
 #include <EncoderButton.h>
 EncoderButton eb1(<ENCODER_PIN1>, <ENCODER_PIN2>, <SWITCH_PIN>);
 
-// Create a callback function
+// Create one or more callback functions 
 void onEb1Encoder(EncoderButton& eb) {
   Serial.printf("eb1 incremented by: %i \n", eb.increment());
   Serial.printf("eb1 position is: %i \n", eb.position());
@@ -187,3 +187,9 @@ From within your callback function
 **```unsigned int userId()```** Return the user defined value that identifies this button. May not be unique.
 
 **```unsigned int userState()```** Returns the user defined state for this button.
+
+### Enabling/disabling the EncoderButton
+
+**```void enable(bool=true)```** Disabling the EncoderButton will prevent all events firing and also stop incrementing the encoder position. Pass ```true``` to enable (default) or ```false``` to disable.
+
+**```bool enabled()```** Returns ```true``` if enabled or ```false``` if disabled.
