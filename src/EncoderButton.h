@@ -24,6 +24,10 @@
  * Button events are fired for both the encoder button and/or a standalone
  * momentary switch.
  * 
+ * GPLv2 Licence https://www.gnu.org/licenses/old-licenses/gpl-2.0.txt
+ * 
+ * Copyright (c) 2022 Philip Fletcher <philip.fletcher@stutchbury.com>
+ * 
  */
 
 #ifndef EncoderButton_h
@@ -277,6 +281,12 @@ class EncoderButton {
      */
     uint8_t longPressCount();
     
+    /**
+     * Returns true if pressed
+     */
+    bool isPressed();
+
+
     /** ***************************************
      *  encoder state
      */

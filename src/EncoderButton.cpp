@@ -1,3 +1,11 @@
+/** 
+ * 
+ * GPLv2 Licence https://www.gnu.org/licenses/old-licenses/gpl-2.0.txt
+ * 
+ * Copyright (c) 2022 Philip Fletcher <philip.fletcher@stutchbury.com>
+ * 
+ */
+
 #include "EncoderButton.h"
 
 
@@ -178,6 +186,8 @@ unsigned long EncoderButton::currentDuration() { return bounce->duration(); }
 unsigned long EncoderButton::previousDuration() { return bounce->previousDuration(); }
 
 uint8_t EncoderButton::longPressCount() { return longPressCounter+1; }
+
+bool EncoderButton::isPressed() { return buttonState() == LOW; }
 
 int16_t EncoderButton::increment() { return encoderIncrement; }
 
