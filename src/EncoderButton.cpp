@@ -84,7 +84,7 @@ void EncoderButton::update() {
     }
     //fire long press callbacks
     if (haveButton && !encodingPressed && LOW == bounce->read() ) {
-      if ( bounce->duration() > (longClickDuration * (longPressCounter+1)) ) {
+      if ( bounce->currentDuration() > (longClickDuration * (longPressCounter+1)) ) {
         lastEventMs = millis();
         if ( (repeatLongPress || longPressCounter == 0 ) && long_press_cb != NULL) {
           long_press_cb (*this);
@@ -93,7 +93,7 @@ void EncoderButton::update() {
       }
     }
     //fire button click callbacks
-    if ( haveButton && !clickFired && _buttonState == HIGH && bounce->duration() > multiClickInterval ) {
+    if ( haveButton && !clickFired && _buttonState == HIGH && bounce->currentDuration() > multiClickInterval ) {
       clickFired = true;
       if ( bounce->previousDuration() > longClickDuration ) {
         clickCounter = 0;
@@ -181,7 +181,7 @@ bool EncoderButton::buttonState() { return bounce->read(); }
 
 unsigned char EncoderButton::clickCount() { return prevClickCount; }
 
-unsigned long EncoderButton::currentDuration() { return bounce->duration(); }
+unsigned long EncoderButton::currentDuration() { return bounce->currentDuration(); }
 
 unsigned long EncoderButton::previousDuration() { return bounce->previousDuration(); }
 
