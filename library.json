@@ -1,6 +1,6 @@
 {
   "name": "EncoderButton",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "Lossless event based rotary encoder+button library for Arduino and Teensy",
   "keywords": "encoder, button, momentary, event, debounce",
   "repository":
@@ -20,7 +20,7 @@
   "license": "GPL-2.0",
   "homepage": "https://github.com/Stutchbury/EncoderButton/",
   "dependencies": {
-    "thomasfredericks/Bounce2": "2.60.0",
+    "thomasfredericks/Bounce2": "2.71",
     "paulstoffregen/Encoder": "1.4.2"
   },
   "frameworks": "Arduino",
