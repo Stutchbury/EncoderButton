@@ -31,8 +31,10 @@ EncoderButton eb1(<ENCODER_PIN1>, <ENCODER_PIN2>, <SWITCH_PIN>);
 
 // Create one or more callback functions 
 void onEb1Encoder(EncoderButton& eb) {
-  Serial.printf("eb1 incremented by: %i \n", eb.increment());
-  Serial.printf("eb1 position is: %i \n", eb.position());
+  Serial.print("eb1 incremented by: ");
+  Serial.println(eb.increment());
+  Serial.print("eb1 position is: ");
+  Serial.println(eb.position());
 }
 ```
 
