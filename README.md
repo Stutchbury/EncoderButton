@@ -1,5 +1,8 @@
 # EncoderButton
 
+> **The new version of EncoderButton can now be found in the [InputEvents library](https://github.com/Stutchbury/InputEvents).**
+
+
 A comprehensive Rotary Encoder & Button library that makes working with rotary encoders (with or without a button) and individual buttons very efficient. 
 
 * Read the position & encoder increment for pressed and non-pressed actions. 
