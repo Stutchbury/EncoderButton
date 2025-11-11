@@ -1,7 +1,8 @@
 # EncoderButton
 
-> **The new version of EncoderButton can now be found in the [InputEvents library](https://github.com/Stutchbury/InputEvents).**
+<img align="left" alt="info icon" src="images/64px-Information_icon4_yellow.svg.png"/>**The new version of EncoderButton can now be found in the [InputEvents library](https://github.com/Stutchbury/InputEvents).**<br/>I will continue with bug fixes here but all development is now focused on InputEvents which enables use of alternative encoder libraries and other useful new features.
 
+<br clear="both"/>
 
 A comprehensive Rotary Encoder & Button library that makes working with rotary encoders (with or without a button) and individual buttons very efficient. 
 
