@@ -64,7 +64,7 @@ void EncoderButton::update() {
       }
     }
     //encoder udate (fires encoder rotation callbacks)
-    if ( haveEncoder && millis() > (rateLimitCounter + rateLimit) ) { 
+    if ( haveEncoder &&  (millis() - rateLimitCounter) >= rateLimit ) {
       long newPosition = floor(encoder->read()/positionDivider);
       if (newPosition != encoderPosition) {
         encoderIncrement = (newPosition - encoderPosition); 
